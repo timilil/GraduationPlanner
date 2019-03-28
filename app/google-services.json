@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "179061296291",
+    "firebase_url": "https://graduationplanner-a3dca.firebaseio.com",
+    "project_id": "graduationplanner-a3dca",
+    "storage_bucket": "graduationplanner-a3dca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179061296291:android:d88ee6ac5fe0d2a0",
+        "android_client_info": {
+          "package_name": "com.example.timil.graduationplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179061296291-0smmeoflkj62umqd3anauu6q6m3laj6o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.timil.graduationplanner",
+            "certificate_hash": "7a6da192dd4d87a2eddac2214f40718b19ca43aa"
+          }
+        },
+        {
+          "client_id": "179061296291-hdqo2l08ki4eigsbl6vedoc62nu2mev3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABYUJxh_lNKdjykRBRBLCbb5V284yqyX4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179061296291-hdqo2l08ki4eigsbl6vedoc62nu2mev3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
