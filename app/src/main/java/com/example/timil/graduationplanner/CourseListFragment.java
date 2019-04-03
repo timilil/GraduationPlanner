@@ -2,8 +2,8 @@ package com.example.timil.graduationplanner;
 
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,18 +14,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.example.timil.graduationplanner.db.entities.Course;
+import com.example.timil.graduationplanner.db.entities.Semester;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import javax.net.ssl.HttpsURLConnection;
+import java.util.List;
 
 
 /**
@@ -34,10 +33,10 @@ import javax.net.ssl.HttpsURLConnection;
 public class CourseListFragment extends Fragment {
 
     private View root;
+    private DatabaseReference mDatabase;
     private RecyclerView recyclerView;
     private CourseRecyclerAdapter adapter;
     private OnDoneClick mCallBack;
-
 
     public interface OnDoneClick {
         void doneSelecting(int degreeLength);
@@ -88,35 +87,60 @@ public class CourseListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(false);
 
-        getCanvasCourses getCoursesTask = new getCanvasCourses();
-        getCoursesTask.execute();
+        //getCanvasCourses getCoursesTask = new getCanvasCourses();
+        //getCoursesTask.execute();
+        final List<Course> courseList = new ArrayList<Course>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // get courses from Firebase
+        db.collection("courses").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        //Course course = (Course) document.getData();
+                        Course course = document.toObject(Course.class);
+                        course.setId(document.getId());
+                        //Log.d("TESTTT", document.getId() + " => " + document.getData());
+                        //Log.d("TESTTT", course.toString());
+                        courseList.add(course);
+                    }
+                    adapter.setCourses(courseList);
+                } else {
+                    Log.w("Error", "Error getting documents.", task.getException());
+                }
+            }
+        });
 
         Button btnDone = root.findViewById(R.id.btnDone);
         final int finalDegreeLength = degreeLength;
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // degree length passed as parameter to show the correct semester amount when navigating back to NewPlanFragment
+                // degree length passed as parameter to show the correct semesterName amount when navigating back to NewPlanFragment
                 mCallBack.doneSelecting(finalDegreeLength);
             }
         });
 
     }
 
-    public class getCanvasCourses extends AsyncTask<String, Integer, String>{
+    /*public class getCanvasCourses extends AsyncTask<String, Integer, String>{
 
         private String rawJson;
         private Course[] courseList;
         @Override
         protected String doInBackground(String... strings) {
 
+
             try {
-                URL url = new URL("https://weber.instructure.com/api/v1/courses");
+
+
+                /*URL url = new URL("https://weber.instructure.com/api/v1/courses");
 
                 HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
-                
-                String auth_token = "canvas token here";
+
+                String auth_token = "14~V5tppZ0gfztBzDIReAXjkV3412f3UO176igUs8ySZpwxTm0LeW1LDywncmYcp9Wt";
                 connection.setRequestProperty("Authorization", "Bearer "+auth_token);
                 connection.connect();
 
@@ -158,5 +182,5 @@ public class CourseListFragment extends Fragment {
             }
             return courses;
         }
-    }
+    }*/
 }

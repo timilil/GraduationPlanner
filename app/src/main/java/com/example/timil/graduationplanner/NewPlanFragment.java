@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.timil.graduationplanner.db.entities.Course;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -102,7 +104,7 @@ public class NewPlanFragment extends Fragment {
                                 if(j == 0){
                                     semesterList[i]=semesterList[i]+": ";
                                 }
-                                semesterList[i]=semesterList[i]+"\n   "+selectedCoursesList.get(j).getName();
+                                semesterList[i]=semesterList[i]+"\n   "+selectedCoursesList.get(j).getCourse_name();
                             }
                         }
                     }
@@ -173,6 +175,7 @@ public class NewPlanFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("TESTTT", String.valueOf(selectedCoursesList));
                 mCallBack.savePlan();
             }
         });
@@ -181,6 +184,7 @@ public class NewPlanFragment extends Fragment {
     public void updateCourseList(ArrayList<Course> courseList, String semester) {
         selectedCoursesList = courseList;
         selectedSemester = semester;
+        //Log.d("TESTTT", "courses for "+semester+" "+courseList.toString());
     }
 
 }

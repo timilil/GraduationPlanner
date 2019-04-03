@@ -1,171 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".CourseInformationFragment">
 
-    <TextView
-        android:id="@+id/tv1"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:textSize="18sp"
-        android:textAlignment="viewEnd"
-        android:gravity="end|center"
-        android:text="@string/id_string"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/guideline"/>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/edit1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:textColor="@color/colorGray"
-        android:enabled="false"
-        android:focusable="false"
-        android:background="@drawable/edittextdrawable"
-        app:layout_constraintBottom_toBottomOf="@+id/tv1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/tv1" />
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:textSize="18sp"
+            android:textAlignment="viewEnd"
+            android:gravity="end|center"
+            android:text="@string/name_string"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline"
+            app:layout_constraintBottom_toBottomOf="@+id/edit1"
+            app:layout_constraintTop_toTopOf="@id/edit1"/>
 
-    <TextView
-        android:id="@+id/tv2"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:textSize="18sp"
-        android:textAlignment="viewEnd"
-        android:gravity="end|center"
-        android:text="@string/name_string"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/tv1"/>
+        <EditText
+            android:id="@+id/edit1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/colorGray"
+            android:enabled="false"
+            android:focusable="false"
+            android:background="@drawable/edittextdrawable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/edit2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:textColor="@color/colorGray"
-        android:enabled="false"
-        android:focusable="false"
-        android:background="@drawable/edittextdrawable"
-        app:layout_constraintBottom_toBottomOf="@+id/tv2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@id/tv2" />
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:textSize="18sp"
+            android:textAlignment="viewEnd"
+            android:gravity="end|center"
+            android:text="@string/course_credits"
+            app:layout_constraintBottom_toBottomOf="@id/edit1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/edit1"/>
 
-    <TextView
-        android:id="@+id/tv3"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:textSize="18sp"
-        android:textAlignment="viewEnd"
-        android:gravity="end|center"
-        android:text="@string/course_code_string"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/tv2"/>
+        <EditText
+            android:id="@+id/edit2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/colorGray"
+            android:enabled="false"
+            android:focusable="false"
+            android:background="@drawable/edittextdrawable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@id/edit1" />
 
-    <EditText
-        android:id="@+id/edit3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:textColor="@color/colorGray"
-        android:enabled="false"
-        android:focusable="false"
-        android:background="@drawable/edittextdrawable"
-        app:layout_constraintBottom_toBottomOf="@+id/tv3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/tv3" />
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:textSize="18sp"
+            android:textAlignment="viewEnd"
+            android:gravity="end|center"
+            android:text="@string/course_prerequisites"
+            app:layout_constraintBottom_toBottomOf="@+id/edit2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/edit1"/>
 
-    <TextView
-        android:id="@+id/tv4"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:textSize="18sp"
-        android:textAlignment="viewEnd"
-        android:gravity="end|center"
-        android:text="@string/start_date_string"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/tv3" />
+        <EditText
+            android:id="@+id/edit3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/colorGray"
+            android:enabled="false"
+            android:focusable="false"
+            android:background="@drawable/edittextdrawable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/edit2" />
 
-    <EditText
-        android:id="@+id/edit4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:textColor="@color/colorGray"
-        android:enabled="false"
-        android:focusable="false"
-        android:background="@drawable/edittextdrawable"
-        app:layout_constraintBottom_toBottomOf="@+id/tv4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/tv4"  />
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:textSize="18sp"
+            android:textAlignment="viewEnd"
+            android:gravity="end|center"
+            android:text="@string/course_description"
+            app:layout_constraintBottom_toBottomOf="@+id/edit3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/edit2" />
 
-    <TextView
-        android:id="@+id/tv5"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:textSize="18sp"
-        android:textAlignment="viewEnd"
-        android:gravity="end|center"
-        android:text="@string/end_date_string"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/tv4" />
+        <EditText
+            android:id="@+id/edit4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/colorGray"
+            android:enabled="false"
+            android:focusable="false"
+            android:background="@drawable/edittextdrawable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/edit3"  />
 
-    <EditText
-        android:id="@+id/edit5"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:textColor="@color/colorGray"
-        android:enabled="false"
-        android:focusable="false"
-        android:background="@drawable/edittextdrawable"
-        app:layout_constraintBottom_toBottomOf="@+id/tv5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/tv5"  />
+        <Button
+            android:id="@+id/btnAddCourse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_text"/>
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.33"
-        />
+        <!--TextView
+            android:id="@+id/tv5"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:textSize="18sp"
+            android:textAlignment="viewEnd"
+            android:gravity="end|center"
+            android:text="@string/end_date_string"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/tv4" />
 
-</android.support.constraint.ConstraintLayout>
+        <EditText
+            android:id="@+id/edit5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/colorGray"
+            android:enabled="false"
+            android:focusable="false"
+            android:background="@drawable/edittextdrawable"
+            app:layout_constraintBottom_toBottomOf="@+id/tv5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/tv5"  /-->
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.33"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

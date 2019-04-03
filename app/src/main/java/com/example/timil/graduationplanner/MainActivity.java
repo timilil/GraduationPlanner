@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.timil.graduationplanner.db.entities.Course;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,7 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements PlansFragment.OnPlanClick, NewPlanFragment.OnSemesterClick, CourseRecyclerAdapter.OnCourseClick, CourseListFragment.OnDoneClick {
+public class MainActivity extends AppCompatActivity implements PlansFragment.OnPlanClick, NewPlanFragment.OnSemesterClick,
+        CourseRecyclerAdapter.OnCourseClick, CourseListFragment.OnDoneClick, CourseInformationFragment.OnButtonClick {
 
     private FragmentManager fm;
     private PlansFragment plansFragment;
@@ -131,6 +133,19 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
     }
 
     @Override
+    public void onBackPressed() {
+        if (courseInformationFragment != null){
+            // this is a work around to navigate back to the saved state of courseListFragment
+            // to not lose already selected course data
+            if(courseInformationFragment.isAdded()){
+                fm.popBackStack();
+            }
+        }
+
+        super.onBackPressed();
+    }
+
+    @Override
     public void newPlanClick() {
         if (newPlanFragment == null){
             newPlanFragment = new NewPlanFragment();
@@ -181,10 +196,11 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
         if (courseInformationFragment == null){
             courseInformationFragment = new CourseInformationFragment();
         }
-        fm.beginTransaction()
-                .replace(R.id.fragmentContainer, courseInformationFragment, "courseInformationFragment")
-                .addToBackStack(null)
-                .commit();
+
+        // when showing course, we need to make sure to keep the state of the previous fragment
+        // to not lose already selected course(s) data (if any)
+        fm.beginTransaction().hide(courseListFragment).addToBackStack(null).commit();
+        fm.beginTransaction().add(R.id.fragmentContainer, courseInformationFragment, "courseInformationFragment").addToBackStack(null).commit();
 
         courseInformationFragment.setCourse(course);
     }
@@ -196,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
         }
         newPlanFragment.updateCourseList(courseList, semester);
     }
+
 
     @Override
     public void doneSelecting(int degreeLength) {
@@ -216,4 +233,15 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
         bundle.putInt("dropdownSelection", degreeLength);
         newPlanFragment.setArguments(bundle);
     }
+
+    @Override
+    public void onAddButtonClick(Course course) {
+
+        // pop back stack 2 times
+        // get rid of the current fragment
+        fm.popBackStack();
+        // bring back the hidden courseListFragment in its previous state
+        fm.popBackStack();
+    }
+
 }

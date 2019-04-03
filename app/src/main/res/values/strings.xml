@@ -2,12 +2,10 @@
     <string name="app_name">GraduationPlanner</string>
 
 
-    <string name="id_string">ID:</string>
     <string name="name_string">Name</string>
-    <string name="name_required_string">Name (Required):</string>
-    <string name="course_code_string">Course Code:</string>
-    <string name="start_date_string">Start Date:</string>
-    <string name="end_date_string">End Date:</string>
+    <string name="course_credits">Course Credits:</string>
+    <string name="course_description">Description:</string>
+    <string name="course_prerequisites">Course Prerequisites:</string>
     <string name="select_courses">Select courses</string>
     <string name="select_courses_for">Select courses for %1$s</string>
     <string name="delete_text">Delete</string>
