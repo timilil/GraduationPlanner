@@ -36,10 +36,11 @@ public class CourseListFragment extends Fragment {
     private DatabaseReference mDatabase;
     private RecyclerView recyclerView;
     private CourseRecyclerAdapter adapter;
+    private ArrayList<Course> selectedCoursesList;
     private OnDoneClick mCallBack;
 
     public interface OnDoneClick {
-        void doneSelecting(int degreeLength);
+        void doneSelecting(int degreeLength, ArrayList<Course> selectedCoursesList, String selectedSemester);
     }
 
     public CourseListFragment() {
@@ -68,6 +69,8 @@ public class CourseListFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        selectedCoursesList = new ArrayList<Course>();
+
         Bundle bundle = getArguments();
         String semester = null;
         int degreeLength = -1;
@@ -87,8 +90,6 @@ public class CourseListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(false);
 
-        //getCanvasCourses getCoursesTask = new getCanvasCourses();
-        //getCoursesTask.execute();
         final List<Course> courseList = new ArrayList<Course>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -98,11 +99,8 @@ public class CourseListFragment extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        //Course course = (Course) document.getData();
                         Course course = document.toObject(Course.class);
                         course.setId(document.getId());
-                        //Log.d("TESTTT", document.getId() + " => " + document.getData());
-                        //Log.d("TESTTT", course.toString());
                         courseList.add(course);
                     }
                     adapter.setCourses(courseList);
@@ -114,73 +112,30 @@ public class CourseListFragment extends Fragment {
 
         Button btnDone = root.findViewById(R.id.btnDone);
         final int finalDegreeLength = degreeLength;
+        final String selectedSemester = semester;
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // degree length passed as parameter to show the correct semesterName amount when navigating back to NewPlanFragment
-                mCallBack.doneSelecting(finalDegreeLength);
+                // degree length passed as parameter to show the correct semester amount when navigating back to NewPlanFragment
+                mCallBack.doneSelecting(finalDegreeLength, selectedCoursesList, selectedSemester);
             }
         });
 
     }
+    public void updateRecyclerItemButton(int courseListItemIndex, String semester, Course course){
+        adapter.updateRecyclerItemButtonState(courseListItemIndex, semester, course);
+    }
 
-    /*public class getCanvasCourses extends AsyncTask<String, Integer, String>{
-
-        private String rawJson;
-        private Course[] courseList;
-        @Override
-        protected String doInBackground(String... strings) {
-
-
-            try {
-
-
-                /*URL url = new URL("https://weber.instructure.com/api/v1/courses");
-
-                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-
-                String auth_token = "14~V5tppZ0gfztBzDIReAXjkV3412f3UO176igUs8ySZpwxTm0LeW1LDywncmYcp9Wt";
-                connection.setRequestProperty("Authorization", "Bearer "+auth_token);
-                connection.connect();
-
-                int status = connection.getResponseCode();
-                switch (status) {
-                    case 200:
-                    case 201:
-                        BufferedReader br = new BufferedReader(
-                                new InputStreamReader(connection.getInputStream()));
-                        rawJson = br.readLine();
-
-                        courseList = parseeJson();
-                }
-            } catch (MalformedURLException e) {
-                Log.d("TEST", "Wrong url");
-                e.printStackTrace();
-            } catch (IOException e) {
-                Log.d("TEST", "I/O Exceptrion: "+e.getMessage());
-                e.printStackTrace();
+    public void updateSelectedCoursesList(Course course, String semester, Boolean action){
+        // if action true -> add to list
+        if(action){
+            // only add course if it isn't yet added
+            if(!selectedCoursesList.contains(course)){
+                selectedCoursesList.add(course);
             }
-            return null;
+        } else { // else, remove from list
+            selectedCoursesList.remove(course);
         }
+    }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-            adapter.setCourses(Arrays.asList(courseList));
-        }
-
-        private Course[] parseeJson(){
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-            Course[] courses = null;
-            try {
-                courses = gson.fromJson(rawJson, Course[].class);
-            } catch (Exception err) {
-                Log.d("TEST", "JSON Parse Crashed");
-            }
-            return courses;
-        }
-    }*/
 }

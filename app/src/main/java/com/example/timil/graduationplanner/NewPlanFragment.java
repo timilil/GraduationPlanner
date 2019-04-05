@@ -2,6 +2,7 @@ package com.example.timil.graduationplanner;
 
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,10 +12,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.timil.graduationplanner.db.AppDatabase;
 import com.example.timil.graduationplanner.db.entities.Course;
+import com.example.timil.graduationplanner.db.entities.GraduationPlan;
+import com.example.timil.graduationplanner.db.entities.Semester;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +37,7 @@ public class NewPlanFragment extends Fragment {
     private ListView semesterLV;
     private int dropdownListSelection = -1;
     private ArrayList<Course> selectedCoursesList = new ArrayList<Course>();
+    private ArrayList<Semester> semestersAndCoursesList = new ArrayList<Semester>();
     private String selectedSemester;
 
     //list of items for the spinner (or drop down list).
@@ -171,20 +179,72 @@ public class NewPlanFragment extends Fragment {
             }
         });
 
+        final EditText editName = root.findViewById(R.id.editName);
+
         Button btnSave = root.findViewById(R.id.btnSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("TESTTT", String.valueOf(selectedCoursesList));
-                mCallBack.savePlan();
+                GraduationPlan graduationPlan = new GraduationPlan();
+                graduationPlan.setName(editName.getText().toString());
+                graduationPlan.setSemestersArrayList(semestersAndCoursesList);
+
+                setNewGraduationPlan setNewPlan = new setNewGraduationPlan();
+                setNewPlan.execute(graduationPlan);
             }
         });
     }
 
-    public void updateCourseList(ArrayList<Course> courseList, String semester) {
-        selectedCoursesList = courseList;
-        selectedSemester = semester;
-        //Log.d("TESTTT", "courses for "+semester+" "+courseList.toString());
+    public void setSelectedCoursesList(ArrayList<Course> selectedCoursesList, String selectedSemester) {
+        this.selectedCoursesList = selectedCoursesList;
+        this.selectedSemester = selectedSemester;
+
+
+        Semester semester = new Semester();
+        semester.setName(selectedSemester);
+        semester.setCourseArrayList(selectedCoursesList);
+
+        for (int i=0; i<semestersAndCoursesList.size(); i++) {
+            // check that there is no semester with the same name, if there is, remove it and replace it later with the new one
+            if(semestersAndCoursesList.get(i).getName().matches(selectedSemester)){
+
+                semestersAndCoursesList.remove(semestersAndCoursesList.get(i));
+
+            }
+        }
+
+        semestersAndCoursesList.add(semester);
+    }
+
+    /*private Semester[] parseJson(String json){
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        Semester[] semesters = null;
+        try {
+            semesters = gson.fromJson(json, Semester[].class);
+        } catch (Exception err) {
+            Log.d("TEST", "JSON Parse Crashed");
+        }
+        return semesters;
+    }*/
+
+    public class setNewGraduationPlan extends AsyncTask<GraduationPlan, Integer, String> {
+
+        @Override
+        protected String doInBackground(GraduationPlan ... graduationPlan) {
+
+            AppDatabase.getInstance(getContext()).planDAO().insertPlan(graduationPlan);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            mCallBack.savePlan();
+        }
+
     }
 
 }

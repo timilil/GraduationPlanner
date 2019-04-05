@@ -21,10 +21,12 @@ public class CourseInformationFragment extends Fragment {
     private View root;
     private EditText edit1, edit2, edit3, edit4, edit5;
     private Course course;
+    private String selectedSemester;
+    private int courseListItemIndex;
     private OnButtonClick mCallBack;
 
     public interface OnButtonClick {
-        void onAddButtonClick(Course course);
+        void onAddButtonClick(Course course, String selectedSemester,int courseListItemIndex);
     }
 
     public CourseInformationFragment() {
@@ -69,14 +71,15 @@ public class CourseInformationFragment extends Fragment {
         btnAddCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCallBack.onAddButtonClick(course);
+                mCallBack.onAddButtonClick(course, selectedSemester, courseListItemIndex);
             }
         });
     }
 
-    public void setCourse(Course course){
+    public void setCourseInformation(Course course, String selectedSemester, int courseListItemIndex){
         this.course = course;
-
+        this.courseListItemIndex = courseListItemIndex;
+        this.selectedSemester = selectedSemester;
     }
 
 }

@@ -3,7 +3,7 @@ package com.example.timil.graduationplanner.db.entities;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 @Entity
 public class Semester {
@@ -13,14 +13,14 @@ public class Semester {
 
     public String name;
 
-    public String coursesJson;
+    public ArrayList<Course> courseArrayList;
 
     @Override
     public String toString() {
-        return "Semester{" +
-                "_id=" + _id +
-                ", name='" + name + '\'' +
-                ", courses=" + coursesJson +
+        return "{" +
+                "_id:" + _id +
+                ", name:'" + name + '\'' +
+                ", courses:" + courseArrayList +
                 '}';
     }
 
@@ -40,11 +40,11 @@ public class Semester {
         this.name = name;
     }
 
-    public String getCoursesJson() {
-        return coursesJson;
+    public ArrayList<Course> getCourseArrayList() {
+        return courseArrayList;
     }
 
-    public void setCoursesJson(String coursesJson) {
-        this.coursesJson = coursesJson;
+    public void setCourseArrayList(ArrayList<Course> courseArrayList) {
+        this.courseArrayList = courseArrayList;
     }
 }

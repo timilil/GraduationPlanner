@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,11 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerAd
     private final String semester;
     private ArrayList<Course> selectedCoursesList;
     private OnCourseClick mCallback;
+    private boolean changeButtonState = false;
 
     public interface OnCourseClick{
-        void showCourse(Course course);
-        void updateCourseList(ArrayList<Course> courseList, String semester);
+        void showCourse(Course course, String selectedSemester, int i);
+        void updateCourseList(Course course, String semester, Boolean action);
     }
 
     public CourseRecyclerAdapter(@NonNull List<Course> courses, Activity activity, String semester){
@@ -45,6 +47,12 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerAd
         notifyDataSetChanged();
     }
 
+    public void updateRecyclerItemButtonState(int courseListItemIndex, String semester, Course course) {
+        changeButtonState = true;
+        notifyItemChanged(courseListItemIndex);
+        mCallback.updateCourseList(course, semester, true);
+    }
+
     @NonNull
     @Override
     public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i){
@@ -57,37 +65,47 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerAd
         selectedCoursesList = new ArrayList<Course>();
         final Course course = courses.get(i);
         if (course != null) {
+            final int courseListItemIndex = i;
             courseViewHolder.course = course;
             String courseName = course.getCourse_name();
             courseViewHolder.courseName.setText(courseName);
             courseViewHolder.itemRoot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mCallback.showCourse(course);
-                    //Log.d("TESTTT", ""+course.toString());
+                    mCallback.showCourse(course, semester, courseListItemIndex);
                 }
             });
 
-            courseViewHolder.btnToggle.setTag(1);
-            courseViewHolder.btnToggle.setBackgroundColor(Color.GREEN);
-            courseViewHolder.btnToggle.setText(R.string.add_text);
+            // if adding course in CourseInformationFragment, the changeButtonState will be true
+            if (changeButtonState) {
+                courseViewHolder.btnToggle.setTag(0);
+                courseViewHolder.btnToggle.setBackgroundColor(Color.RED);
+                courseViewHolder.btnToggle.setText(R.string.delete_text);
+                changeButtonState = false;
+            } else {
+                courseViewHolder.btnToggle.setTag(1);
+                courseViewHolder.btnToggle.setBackgroundColor(Color.GREEN);
+                courseViewHolder.btnToggle.setText(R.string.add_text);
+            }
             courseViewHolder.btnToggle.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick (View v) {
+
                     // do different actions depending on the button status
                     final int status =(Integer) v.getTag();
+                    boolean action;
                     if(status == 1) {
                         courseViewHolder.btnToggle.setBackgroundColor(Color.RED);
                         courseViewHolder.btnToggle.setText(R.string.delete_text);
-                        selectedCoursesList.add(course);
+                        action = true;
                         v.setTag(0);
                     } else {
                         courseViewHolder.btnToggle.setBackgroundColor(Color.GREEN);
                         courseViewHolder.btnToggle.setText(R.string.add_text);
-                        selectedCoursesList.remove(course);
+                        action = false;
                         v.setTag(1);
                     }
-                    mCallback.updateCourseList(selectedCoursesList, semester);
+                    mCallback.updateCourseList(course, semester, action);
                 }
             });
         }

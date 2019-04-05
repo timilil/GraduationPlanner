@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.timil.graduationplanner.db.entities.Course;
+import com.example.timil.graduationplanner.db.entities.GraduationPlan;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -110,20 +111,17 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                Log.d("TESTTTT", "logout pressed");
+
                 FirebaseAuth.getInstance().signOut();
 
                 user = null;
 
-                //if (user == null) {
-                    // Create and launch sign-in intent
                 startActivityForResult(
                         AuthUI.getInstance()
                                 .createSignInIntentBuilder()
                                 .setAvailableProviders(providers)
                                 .build(),
                         RC_SIGN_IN);
-                //}
 
                 return true;
 
@@ -146,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
     }
 
     @Override
-    public void newPlanClick() {
+    public void newPlan() {
         if (newPlanFragment == null){
             newPlanFragment = new NewPlanFragment();
         }
@@ -157,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
     }
 
     @Override
-    public void viewPlanClick() {
+    public void viewPlan(GraduationPlan graduationPlan) {
         if (viewFragment == null){
             viewFragment = new ViewFragment();
         }
@@ -165,6 +163,8 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
                 .replace(R.id.fragmentContainer, viewFragment, "viewFragment")
                 .addToBackStack(null)
                 .commit();
+
+        viewFragment.setGraduationPlan(graduationPlan);
     }
 
     @Override
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
     }
 
     @Override
-    public void showCourse(Course course) {
+    public void showCourse(Course course, String selectedSemester, int courseListItemIndex) {
         if (courseInformationFragment == null){
             courseInformationFragment = new CourseInformationFragment();
         }
@@ -202,26 +202,26 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
         fm.beginTransaction().hide(courseListFragment).addToBackStack(null).commit();
         fm.beginTransaction().add(R.id.fragmentContainer, courseInformationFragment, "courseInformationFragment").addToBackStack(null).commit();
 
-        courseInformationFragment.setCourse(course);
+        courseInformationFragment.setCourseInformation(course, selectedSemester, courseListItemIndex);
     }
 
     @Override
-    public void updateCourseList(ArrayList<Course> courseList, String semester) {
-        if (newPlanFragment == null) {
-            newPlanFragment = new NewPlanFragment();
+    public void updateCourseList(Course course, String semester, Boolean action) {
+
+        if (courseListFragment == null) {
+            courseListFragment = new CourseListFragment();
         }
-        newPlanFragment.updateCourseList(courseList, semester);
+        courseListFragment.updateSelectedCoursesList(course, semester, action);
     }
 
-
     @Override
-    public void doneSelecting(int degreeLength) {
+    public void doneSelecting(int degreeLength, ArrayList<Course> selectedCoursesList, String selectedSemester) {
         fm.popBackStack();
         Snackbar.make(findViewById(android.R.id.content), "Successfully selected courses", Snackbar.LENGTH_LONG)
                 .setAction("OKAY", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // TODO: maybe give undo option here?
+                        // TODO: Is this necessary? Or maybe display a toaster instead?
                     }
                 })
                 .show();
@@ -232,16 +232,19 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
         Bundle bundle = new Bundle();
         bundle.putInt("dropdownSelection", degreeLength);
         newPlanFragment.setArguments(bundle);
+        newPlanFragment.setSelectedCoursesList(selectedCoursesList, selectedSemester);
     }
 
     @Override
-    public void onAddButtonClick(Course course) {
+    public void onAddButtonClick(Course course, String selectedSemester, int courseListItemIndex) {
 
         // pop back stack 2 times
         // get rid of the current fragment
         fm.popBackStack();
         // bring back the hidden courseListFragment in its previous state
         fm.popBackStack();
+
+        courseListFragment.updateRecyclerItemButton(courseListItemIndex, selectedSemester, course);
     }
 
 }

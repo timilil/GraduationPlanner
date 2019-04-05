@@ -9,14 +9,11 @@ public class Course {
     @PrimaryKey(autoGenerate = true)
     public int _id;
 
-    //public int _id;
     public String id;
 
     public String course_name;
 
     public String course_code;
-    //public String start_at;
-    //public String end_at;
     public Integer credits;
     public String description;
     public String pre_requisites;
@@ -24,15 +21,15 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course{" +
-                "_id=" + _id +
-                "id='" + id + '\'' +
-                ", course_name='" + course_name + '\'' +
-                ", course_code='" + course_code + '\'' +
-                ", credits=" + credits +
-                ", description='" + description + '\'' +
-                ", pre_requisites='" + pre_requisites + '\'' +
-                ", required=" + required +
+        return "{" +
+                "_id:" + _id +
+                ", id:'" + id + '\'' +
+                ", course_name:'" + course_name + '\'' +
+                ", course_code:'" + course_code + '\'' +
+                ", credits:" + credits +
+                ", description:'" + description + '\'' +
+                ", pre_requisites:'" + pre_requisites + '\'' +
+                ", required:" + required +
                 '}';
     }
 
