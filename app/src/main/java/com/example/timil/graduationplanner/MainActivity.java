@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.example.timil.graduationplanner.db.entities.Course;
 import com.example.timil.graduationplanner.db.entities.GraduationPlan;
+import com.example.timil.graduationplanner.db.entities.Semester;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,11 +24,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PlansFragment.OnPlanClick, NewPlanFragment.OnSemesterClick,
-        CourseRecyclerAdapter.OnCourseClick, CourseListFragment.OnDoneClick, CourseInformationFragment.OnButtonClick {
+        CourseRecyclerAdapter.OnCourseClick, CourseListFragment.OnDoneClick, CourseInformationFragment.OnButtonClick,
+        ViewPlanFragment.OnClick {
 
     private FragmentManager fm;
     private PlansFragment plansFragment;
-    private ViewFragment viewFragment;
+    private ViewPlanFragment viewPlanFragment;
+    private ViewSemesterFragment viewSemesterFragment;
     private NewPlanFragment newPlanFragment;
     private CourseListFragment courseListFragment;
     private CourseInformationFragment courseInformationFragment;
@@ -156,15 +159,15 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
 
     @Override
     public void viewPlan(GraduationPlan graduationPlan) {
-        if (viewFragment == null){
-            viewFragment = new ViewFragment();
+        if (viewPlanFragment == null){
+            viewPlanFragment = new ViewPlanFragment();
         }
         fm.beginTransaction()
-                .replace(R.id.fragmentContainer, viewFragment, "viewFragment")
+                .replace(R.id.fragmentContainer, viewPlanFragment, "viewPlanFragment")
                 .addToBackStack(null)
                 .commit();
 
-        viewFragment.setGraduationPlan(graduationPlan);
+        viewPlanFragment.setGraduationPlan(graduationPlan);
     }
 
     @Override
@@ -247,4 +250,15 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
         courseListFragment.updateRecyclerItemButton(courseListItemIndex, selectedSemester, course);
     }
 
+    @Override
+    public void viewSemester(Semester semester) {
+        if(viewSemesterFragment == null) {
+            viewSemesterFragment = new ViewSemesterFragment();
+        }
+        fm.beginTransaction()
+                .replace(R.id.fragmentContainer, viewSemesterFragment, "viewSemesterFragment")
+                .addToBackStack(null)
+                .commit();
+        viewSemesterFragment.setSemester(semester);
+    }
 }

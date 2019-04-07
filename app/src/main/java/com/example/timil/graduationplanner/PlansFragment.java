@@ -95,27 +95,27 @@ public class PlansFragment extends ListFragment {
                             plansArray.clear();
                             if (plans.size() == 0) {
                                 plansArray.add("No graduation plan data yet. Click the add button to create a new plan.");
+                                adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_no_data, R.id.tvListNoData, plansArray);
                             } else {
                                 for (int i = 0; i < plans.size(); i++) {
                                     plansArray.add(plans.get(i).name);
                                 }
+                                ListView listView = getListView();
+                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                        GraduationPlan graduationPlan = graduationPlans.get(i);
+                                        mCallBack.viewPlan(graduationPlan);
+                                    }
+                                });
+                                adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.tvList, plansArray);
                             }
-                            adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.tvList, plansArray);
                             setListAdapter(adapter);
                         }
                     }
                 });
-
-        ListView listView = getListView();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                GraduationPlan graduationPlan = graduationPlans.get(i);
-                mCallBack.viewPlan(graduationPlan);
-            }
-        });
 
         FloatingActionButton fabNewPlan = root.findViewById(R.id.fabNew);
         fabNewPlan.setOnClickListener(new View.OnClickListener() {
