@@ -2,6 +2,7 @@ package com.example.timil.graduationplanner;
 
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -68,9 +69,17 @@ public class CourseInformationFragment extends Fragment {
         edit4.setText(course.getDescription());
 
         Button btnAddCourse = root.findViewById(R.id.btnAddCourse);
+        if (course.getBtnToggle()) {
+            btnAddCourse.setBackgroundColor(Color.RED);
+            btnAddCourse.setText(R.string.delete_text);
+        } else {
+            btnAddCourse.setBackgroundColor(Color.GREEN);
+            btnAddCourse.setText(R.string.add_text);
+        }
         btnAddCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                course.setBtnToggle();
                 mCallBack.onAddButtonClick(course, selectedSemester, courseListItemIndex);
             }
         });

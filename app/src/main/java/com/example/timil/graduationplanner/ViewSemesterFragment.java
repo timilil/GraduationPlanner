@@ -4,14 +4,13 @@ package com.example.timil.graduationplanner;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.timil.graduationplanner.db.entities.Course;
 import com.example.timil.graduationplanner.db.entities.Semester;
 
 import java.util.ArrayList;
@@ -25,8 +24,8 @@ public class ViewSemesterFragment extends ListFragment {
 
     private View root;
     private Semester semester;
-    private ArrayAdapter<String> adapter;
-    private List<String> courseArray;
+    private List<String> emptyArray;
+    private ArrayList<Course> courseArray;
 
     public ViewSemesterFragment() {
         // Required empty public constructor
@@ -43,27 +42,30 @@ public class ViewSemesterFragment extends ListFragment {
     public void onResume() {
         super.onResume();
 
-        courseArray = new ArrayList<>();
-
         if (semester != null) {
             if (semester.getCourseArrayList().size() == 0) {
-                courseArray.add("No course data.");
-                adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_no_data, R.id.tvListNoData, courseArray);
+                emptyArray = new ArrayList<>();
+                emptyArray.add("No course data.");
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_no_data, R.id.tvListNoData, emptyArray);
+                setListAdapter(adapter);
             } else {
-                for (int i = 0; i < semester.getCourseArrayList().size(); i++) {
-                    courseArray.add(semester.getCourseArrayList().get(i).getCourse_name());
-                }
+
+                courseArray = new ArrayList<Course>();
+                // Attach the adapter to a ListView
+                //listView.setAdapter(adapter);
+                courseArray.addAll(semester.getCourseArrayList());
+
+                PlanCoursesListViewAdapter adapter = new PlanCoursesListViewAdapter(getContext(), courseArray);
                 ListView listView = getListView();
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                listView.setAdapter(adapter);
+                /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         //mCallBack.viewCourse(semester.getCourseArrayList().get(i));
                     }
-                });
-                adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.tvList, courseArray);
+                });*/
             }
-            setListAdapter(adapter);
         }
     }
 

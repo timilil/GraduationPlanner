@@ -209,12 +209,12 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
     }
 
     @Override
-    public void updateCourseList(Course course, String semester, Boolean action) {
+    public void updateCourseList(Course course, String semester) {
 
         if (courseListFragment == null) {
             courseListFragment = new CourseListFragment();
         }
-        courseListFragment.updateSelectedCoursesList(course, semester, action);
+        courseListFragment.updateSelectedCoursesList(course, semester);
     }
 
     @Override
@@ -260,5 +260,10 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
                 .addToBackStack(null)
                 .commit();
         viewSemesterFragment.setSemester(semester);
+    }
+
+    @Override
+    public void deletePlan() {
+        fm.popBackStack();
     }
 }

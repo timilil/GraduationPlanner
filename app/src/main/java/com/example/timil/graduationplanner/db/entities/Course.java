@@ -19,6 +19,8 @@ public class Course {
     public String pre_requisites;
     public Boolean required;
 
+    public Boolean btnToggle = false;
+
     @Override
     public String toString() {
         return "{" +
@@ -87,6 +89,14 @@ public class Course {
 
     public void setRequired(Boolean required) {
         this.required = required;
+    }
+
+    public Boolean getBtnToggle() {
+        return btnToggle;
+    }
+
+    public void setBtnToggle() {
+        this.btnToggle = !this.btnToggle;
     }
 
 }

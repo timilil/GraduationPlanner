@@ -8,4 +8,10 @@
           android:icon="@drawable/ic_more_vert_white_24dp"
           app:showAsAction="never"/>
 
+    <item android:id="@+id/deletePlan"
+          android:title="Delete plan"
+          android:icon="@drawable/ic_delete_white_24dp"
+          app:showAsAction="ifRoom"
+          android:visible="false"/>
+
 </menu>

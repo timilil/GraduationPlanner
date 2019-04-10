@@ -2,9 +2,11 @@ package com.example.timil.graduationplanner;
 
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.timil.graduationplanner.db.AppDatabase;
 import com.example.timil.graduationplanner.db.entities.Course;
@@ -77,6 +80,17 @@ public class NewPlanFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        TextView tvCurrentCreditHours = root.findViewById(R.id.tvCurrentCredits);
+        int credits=0;
+        if(semestersAndCoursesList.size()>0){
+            for (int i = 0; i<semestersAndCoursesList.size(); i++){
+                for(int j = 0; j<semestersAndCoursesList.get(i).getCourseArrayList().size(); j++){
+                    credits += semestersAndCoursesList.get(i).getCourseArrayList().get(j).getCredits();
+                }
+            }
+        }
+        tvCurrentCreditHours.setText(getString(R.string.selected_total_credits, credits));
+
         Bundle bundle = getArguments();
         try {
             dropdownListSelection = bundle.getInt("dropdownSelection");
@@ -107,12 +121,11 @@ public class NewPlanFragment extends Fragment {
                 if (selectedCoursesList != null && selectedSemester != null){
                     for (int i = 0; i<semesterList.length; i++){
                         if (selectedSemester.equals(semesterList[i])) {
-
                             for (int j = 0; j<selectedCoursesList.size(); j++){
                                 if(j == 0){
-                                    semesterList[i]=semesterList[i]+": ";
+                                    semesterList[i]=semesterList[i]+": \n";
                                 }
-                                semesterList[i]=semesterList[i]+"\n   "+selectedCoursesList.get(j).getCourse_name();
+                                semesterList[i]=semesterList[i]+"\n- "+selectedCoursesList.get(j).getCourse_name();
                             }
                         }
                     }
@@ -182,15 +195,34 @@ public class NewPlanFragment extends Fragment {
         final EditText editName = root.findViewById(R.id.editName);
 
         Button btnSave = root.findViewById(R.id.btnSave);
+        final int finalCredits = credits;
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GraduationPlan graduationPlan = new GraduationPlan();
-                graduationPlan.setName(editName.getText().toString());
-                graduationPlan.setSemestersArrayList(semestersAndCoursesList);
 
-                setNewGraduationPlan setNewPlan = new setNewGraduationPlan();
-                setNewPlan.execute(graduationPlan);
+                int recommendedCredits = Integer.valueOf(degreeLengths[dropdownListSelection].split(" ")[0])*30;
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle("Save plan");
+                alertDialog.setMessage("Are you sure you want to save this plan? \nNOTE! Your current credit amount is "+finalCredits+" (recommended is "+recommendedCredits+" credits).");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                GraduationPlan graduationPlan = new GraduationPlan();
+                                graduationPlan.setName(editName.getText().toString());
+                                graduationPlan.setSemestersArrayList(semestersAndCoursesList);
+
+                                setNewGraduationPlan setNewPlan = new setNewGraduationPlan();
+                                setNewPlan.execute(graduationPlan);
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int i) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
         });
     }

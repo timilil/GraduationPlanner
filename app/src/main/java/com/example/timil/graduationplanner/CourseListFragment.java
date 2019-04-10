@@ -38,6 +38,7 @@ public class CourseListFragment extends Fragment {
     private CourseRecyclerAdapter adapter;
     private ArrayList<Course> selectedCoursesList;
     private OnDoneClick mCallBack;
+    private int credits;
 
     public interface OnDoneClick {
         void doneSelecting(int degreeLength, ArrayList<Course> selectedCoursesList, String selectedSemester);
@@ -70,6 +71,7 @@ public class CourseListFragment extends Fragment {
         super.onResume();
 
         selectedCoursesList = new ArrayList<Course>();
+        credits=0;
 
         Bundle bundle = getArguments();
         String semester = null;
@@ -126,16 +128,21 @@ public class CourseListFragment extends Fragment {
         adapter.updateRecyclerItemButtonState(courseListItemIndex, semester, course);
     }
 
-    public void updateSelectedCoursesList(Course course, String semester, Boolean action){
+    public void updateSelectedCoursesList(Course course, String semester){
         // if action true -> add to list
-        if(action){
+        if(course.getBtnToggle()){
             // only add course if it isn't yet added
             if(!selectedCoursesList.contains(course)){
                 selectedCoursesList.add(course);
+                credits += course.getCredits();
             }
         } else { // else, remove from list
             selectedCoursesList.remove(course);
+            credits -= course.getCredits();
         }
+
+        TextView tvSelectedCreditHours = root.findViewById(R.id.tvSelectedCredits);
+        tvSelectedCreditHours.setText(getString(R.string.selected_total_credits, credits));
     }
 
 }

@@ -15,4 +15,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="plan_name">Plan Name:</string>
+    <string name="plan_information">Plan Information</string>
+    <string name="total_credits">Total Credits:</string>
+    <string name="set_plan_name">Set graduation plan name:</string>
+    <string name="selected_total_credits">Credits: %1$d</string>
 </resources>

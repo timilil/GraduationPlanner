@@ -22,11 +22,10 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerAd
     private final String semester;
     private ArrayList<Course> selectedCoursesList;
     private OnCourseClick mCallback;
-    private boolean changeButtonState = false;
 
     public interface OnCourseClick{
         void showCourse(Course course, String selectedSemester, int i);
-        void updateCourseList(Course course, String semester, Boolean action);
+        void updateCourseList(Course course, String semester);
     }
 
     public CourseRecyclerAdapter(@NonNull List<Course> courses, Activity activity, String semester){
@@ -48,9 +47,8 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerAd
     }
 
     public void updateRecyclerItemButtonState(int courseListItemIndex, String semester, Course course) {
-        changeButtonState = true;
         notifyItemChanged(courseListItemIndex);
-        mCallback.updateCourseList(course, semester, true);
+        mCallback.updateCourseList(course, semester);
     }
 
     @NonNull
@@ -76,36 +74,27 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerAd
                 }
             });
 
-            // if adding course in CourseInformationFragment, the changeButtonState will be true
-            if (changeButtonState) {
-                courseViewHolder.btnToggle.setTag(0);
+            // if adding course in CourseInformationFragment, the button state needs to be set correctly
+            if (course.getBtnToggle()) {
                 courseViewHolder.btnToggle.setBackgroundColor(Color.RED);
                 courseViewHolder.btnToggle.setText(R.string.delete_text);
-                changeButtonState = false;
             } else {
-                courseViewHolder.btnToggle.setTag(1);
                 courseViewHolder.btnToggle.setBackgroundColor(Color.GREEN);
                 courseViewHolder.btnToggle.setText(R.string.add_text);
             }
             courseViewHolder.btnToggle.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick (View v) {
-
+                    course.setBtnToggle();
                     // do different actions depending on the button status
-                    final int status =(Integer) v.getTag();
-                    boolean action;
-                    if(status == 1) {
+                    if(course.getBtnToggle()) {
                         courseViewHolder.btnToggle.setBackgroundColor(Color.RED);
                         courseViewHolder.btnToggle.setText(R.string.delete_text);
-                        action = true;
-                        v.setTag(0);
                     } else {
                         courseViewHolder.btnToggle.setBackgroundColor(Color.GREEN);
                         courseViewHolder.btnToggle.setText(R.string.add_text);
-                        action = false;
-                        v.setTag(1);
                     }
-                    mCallback.updateCourseList(course, semester, action);
+                    mCallback.updateCourseList(course, semester);
                 }
             });
         }
