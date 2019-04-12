@@ -19,13 +19,14 @@ import java.util.List;
 public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerAdapter.CourseViewHolder> {
 
     private final List<Course> courses;
+    private List<Course> coursesCopy = new ArrayList<Course>();
     private final String semester;
     private ArrayList<Course> selectedCoursesList;
     private OnCourseClick mCallback;
 
     public interface OnCourseClick{
         void showCourse(Course course, String selectedSemester, int i);
-        void updateCourseList(Course course, String semester);
+        void updateCourseList(Course course, String semester, int courseListItemIndex);
     }
 
     public CourseRecyclerAdapter(@NonNull List<Course> courses, Activity activity, String semester){
@@ -42,13 +43,31 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerAd
     public void setCourses(List<Course> courses) {
         this.courses.clear();
         this.courses.addAll(courses);
+        this.coursesCopy.addAll(this.courses);
 
         notifyDataSetChanged();
     }
 
     public void updateRecyclerItemButtonState(int courseListItemIndex, String semester, Course course) {
-        notifyItemChanged(courseListItemIndex);
-        mCallback.updateCourseList(course, semester);
+        //notifyItemChanged(courseListItemIndex);
+        mCallback.updateCourseList(course, semester, courseListItemIndex);
+    }
+
+    public void filterCourses(String text) {
+
+        this.courses.clear();
+
+        if(text.isEmpty()){
+            courses.addAll(coursesCopy);
+        } else{
+            text = text.toLowerCase();
+            for(Course course: coursesCopy){
+                if(course.getCourse_name().toLowerCase().contains(text)){
+                    courses.add(course);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -94,7 +113,7 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerAd
                         courseViewHolder.btnToggle.setBackgroundColor(Color.GREEN);
                         courseViewHolder.btnToggle.setText(R.string.add_text);
                     }
-                    mCallback.updateCourseList(course, semester);
+                    mCallback.updateCourseList(course, semester, courseListItemIndex);
                 }
             });
         }

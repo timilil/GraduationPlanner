@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.timil.graduationplanner.db.entities.Course;
 import com.example.timil.graduationplanner.db.entities.GraduationPlan;
@@ -190,7 +191,8 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
     @Override
     public void savePlan() {
         fm.popBackStack();
-        // make sure to reset the fragment when saving because we don't want to have any old data stored when/if navigating back to make a new plan
+        // make sure to reset the fragment when saving
+        // because we don't want to have any old data stored when/if navigating back to create a new plan
         newPlanFragment = null;
     }
 
@@ -209,25 +211,18 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
     }
 
     @Override
-    public void updateCourseList(Course course, String semester) {
+    public void updateCourseList(Course course, String semester, int courseListItemIndex) {
 
         if (courseListFragment == null) {
             courseListFragment = new CourseListFragment();
         }
-        courseListFragment.updateSelectedCoursesList(course, semester);
+        courseListFragment.updateSelectedCoursesList(course, semester, courseListItemIndex);
     }
 
     @Override
     public void doneSelecting(int degreeLength, ArrayList<Course> selectedCoursesList, String selectedSemester) {
         fm.popBackStack();
-        Snackbar.make(findViewById(android.R.id.content), "Successfully selected courses", Snackbar.LENGTH_LONG)
-                .setAction("OKAY", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // TODO: Is this necessary? Or maybe display a toaster instead?
-                    }
-                })
-                .show();
+        Toast.makeText(getApplicationContext(), "Succesfully selected courses for "+selectedSemester+".", Toast.LENGTH_SHORT).show();
         if (newPlanFragment == null){
             newPlanFragment = new NewPlanFragment();
         }
@@ -265,5 +260,12 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
     @Override
     public void deletePlan() {
         fm.popBackStack();
+        Snackbar.make(findViewById(android.R.id.content), "Successfully deleted plan.", Snackbar.LENGTH_SHORT)
+                .setAction("CLOSE", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                    }
+                })
+                .show();
     }
 }

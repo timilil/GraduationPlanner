@@ -94,7 +94,7 @@ public class PlansFragment extends ListFragment {
                             graduationPlans = plans;
                             plansArray.clear();
                             if (plans.size() == 0) {
-                                plansArray.add("No graduation plan data yet. Click the add button to create a new plan.");
+                                plansArray.add("No graduation plan data to show. Click the add button to create a new plan.");
                                 adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_no_data, R.id.tvListNoData, plansArray);
                             } else {
                                 for (int i = 0; i < plans.size(); i++) {

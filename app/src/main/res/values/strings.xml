@@ -2,22 +2,24 @@
     <string name="app_name">GraduationPlanner</string>
 
 
-    <string name="name_string">Name</string>
+    <string name="name_string">Name:</string>
     <string name="course_credits">Course Credits:</string>
     <string name="course_description">Description:</string>
     <string name="course_prerequisites">Course Prerequisites:</string>
     <string name="select_courses">Select courses</string>
-    <string name="select_courses_for">Select courses for %1$s</string>
+    <string name="select_courses_for"><!--Select courses for: \n-->%1$s</string>
     <string name="delete_text">Delete</string>
     <string name="add_text">Add</string>
     <string name="done_text">DONE</string>
     <string name="save_plan">SAVE PLAN</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="plan_name">Plan Name:</string>
-    <string name="plan_information">Plan Information</string>
+    <string name="plan_information">PLAN INFORMATION</string>
     <string name="total_credits">Total Credits:</string>
     <string name="set_plan_name">Set graduation plan name:</string>
     <string name="selected_total_credits">Credits: %1$d</string>
+    <string name="delete_plan_menu">Delete plan</string>
+    <string name="logout_menu">Logout</string>
+    <string name="length">Length</string>
+    <string name="my_plans">MY PLANS</string>
+    <string name="search">Search</string>
 </resources>

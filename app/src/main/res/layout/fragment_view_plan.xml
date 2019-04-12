@@ -11,54 +11,60 @@
         android:id="@+id/tvPlanInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/plan_information"/>
+        android:text="@string/plan_information"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="8dp">
 
         <TextView
             android:id="@+id/tvPlanNameText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/plan_name"/>
+            android:text="@string/plan_name"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tvPlanName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textSize="16sp"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="8dp">
 
         <TextView
             android:id="@+id/tvPlanTotalCreditsText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/total_credits"/>
+            android:text="@string/total_credits"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tvPlanTotalCredits"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textSize="16sp"/>
 
     </LinearLayout>
 
-    <!-- this was needed to prevent error that crashed the app:
-    java.lang.RuntimeException: Your content must have a ListView whose id attribute is 'android.R.id.list' -->
-    <include layout="@android:layout/list_content"/>
-
     <ListView
-        android:id="@+id/list"
+        android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

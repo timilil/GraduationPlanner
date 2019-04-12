@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.timil.graduationplanner.db.entities.Course;
 
@@ -20,7 +21,7 @@ import com.example.timil.graduationplanner.db.entities.Course;
 public class CourseInformationFragment extends Fragment {
 
     private View root;
-    private EditText edit1, edit2, edit3, edit4, edit5;
+    private TextView tv2, tv4, tv6, tv8;
     private Course course;
     private String selectedSemester;
     private int courseListItemIndex;
@@ -56,17 +57,17 @@ public class CourseInformationFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        edit1 = root.findViewById(R.id.edit1);
-        edit2 = root.findViewById(R.id.edit2);
-        edit3 = root.findViewById(R.id.edit3);
-        edit4 = root.findViewById(R.id.edit4);
+        tv2 = root.findViewById(R.id.tv2);
+        tv4 = root.findViewById(R.id.tv4);
+        tv6 = root.findViewById(R.id.tv6);
+        tv8 = root.findViewById(R.id.tv8);
         //edit5 = root.findViewById(R.id.edit5);
 
         //edit1.setText(""+course.getId());
-        edit1.setText(course.getCourse_name());
-        edit2.setText(""+course.getCredits());
-        edit3.setText(course.getPre_requisites());
-        edit4.setText(course.getDescription());
+        tv2.setText(course.getCourse_name());
+        tv4.setText(""+course.getCredits());
+        tv6.setText(course.getPre_requisites());
+        tv8.setText(course.getDescription());
 
         Button btnAddCourse = root.findViewById(R.id.btnAddCourse);
         if (course.getBtnToggle()) {

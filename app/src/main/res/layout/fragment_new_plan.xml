@@ -20,13 +20,17 @@
             android:id="@+id/tvSetPlanName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
             android:text="@string/set_plan_name"
-            android:layout_weight="1"/>
+            android:textStyle="bold"
+            android:layout_weight="3"/>
 
         <TextView
             android:id="@+id/tvCurrentCredits"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:layout_weight="1"
             android:textAlignment="viewEnd"/>
 
@@ -38,24 +42,44 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
 
-    <Spinner
-        android:id="@+id/spinner1"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/list"
-        />
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/editName">
+
+        <TextView
+            android:id="@+id/tvPlanLength"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="@string/length"/>
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPlanLength"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/list"/>
+
         <!--android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"-->
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinner1"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btnSave" />
 

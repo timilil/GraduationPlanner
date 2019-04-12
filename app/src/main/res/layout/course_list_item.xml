@@ -8,7 +8,7 @@
         android:id="@+id/tvListCourseName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:padding="8dp"/>
 
 
@@ -16,12 +16,14 @@
         android:id="@+id/tvListCourseCredits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvListNoData"/>
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tvListCourseName"/>
 
-    <!--Button
+    <Button
         android:id="@+id/btnChangeCourse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CHANGE"/-->
+        android:text="CHANGE"
+        app:layout_constraintTop_toBottomOf="@id/tvListCourseCredits"/>
 
 </android.support.constraint.ConstraintLayout>

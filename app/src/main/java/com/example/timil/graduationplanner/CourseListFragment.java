@@ -4,15 +4,21 @@ package com.example.timil.graduationplanner;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.timil.graduationplanner.db.entities.Course;
 import com.example.timil.graduationplanner.db.entities.Semester;
@@ -35,10 +41,12 @@ public class CourseListFragment extends Fragment {
     private View root;
     private DatabaseReference mDatabase;
     private RecyclerView recyclerView;
+    private Button btnDone;
     private CourseRecyclerAdapter adapter;
     private ArrayList<Course> selectedCoursesList;
     private OnDoneClick mCallBack;
     private int credits;
+    private boolean searchBarToggled;
 
     public interface OnDoneClick {
         void doneSelecting(int degreeLength, ArrayList<Course> selectedCoursesList, String selectedSemester);
@@ -60,6 +68,12 @@ public class CourseListFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -70,8 +84,11 @@ public class CourseListFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        searchBarToggled = false;
         selectedCoursesList = new ArrayList<Course>();
         credits=0;
+        TextView tvSelectedCreditHours = root.findViewById(R.id.tvSelectedCredits);
+        tvSelectedCreditHours.setText(getString(R.string.selected_total_credits, credits));
 
         Bundle bundle = getArguments();
         String semester = null;
@@ -112,7 +129,7 @@ public class CourseListFragment extends Fragment {
             }
         });
 
-        Button btnDone = root.findViewById(R.id.btnDone);
+        btnDone = root.findViewById(R.id.btnDone);
         final int finalDegreeLength = degreeLength;
         final String selectedSemester = semester;
         btnDone.setOnClickListener(new View.OnClickListener() {
@@ -124,22 +141,92 @@ public class CourseListFragment extends Fragment {
         });
 
     }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.search).setVisible(true);
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+                searchBarToggled = !searchBarToggled;
+                final SearchView searchView = root.findViewById(R.id.searchView);
+                searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean b) {
+                        // hide the button if the keyboard is shown because it saves some space
+                        // and might distract the user
+                        if (b) {
+                            btnDone.setVisibility(View.GONE);
+                        } else {
+                            btnDone.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
+                searchView.setIconified(false);
+                searchView.setFocusable(true);
+                if(searchBarToggled) {
+                    searchView.setVisibility(View.VISIBLE);
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            adapter.filterCourses(query);
+                            searchView.clearFocus();
+                            return true;
+                        }
+                        @Override
+                        public boolean onQueryTextChange(String changedText) {
+                            adapter.filterCourses(changedText);
+                            return true;
+                        }
+                    });
+                } else {
+                    searchView.setVisibility(View.GONE);
+                }
+                return true;
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     public void updateRecyclerItemButton(int courseListItemIndex, String semester, Course course){
         adapter.updateRecyclerItemButtonState(courseListItemIndex, semester, course);
     }
 
-    public void updateSelectedCoursesList(Course course, String semester){
-        // if action true -> add to list
-        if(course.getBtnToggle()){
-            // only add course if it isn't yet added
-            if(!selectedCoursesList.contains(course)){
-                selectedCoursesList.add(course);
-                credits += course.getCredits();
-            }
-        } else { // else, remove from list
+    public void updateSelectedCoursesList(Course course, String semester, int courseListItemIndex){
+
+        int currentCredits=0;
+        for(int i = 0; i < selectedCoursesList.size(); i++){
+            currentCredits += selectedCoursesList.get(i).getCredits();
+        }
+
+        // if btnToggle is false -> remove from list
+        if(!course.getBtnToggle()) {
             selectedCoursesList.remove(course);
             credits -= course.getCredits();
         }
+        else {
+            boolean isOverMaxCredits = false;
+            if((currentCredits + course.getCredits()) > 20){
+                isOverMaxCredits = true;
+                course.setBtnToggle();
+                Toast.makeText(getContext(),"Can't select more than 20 credits!",Toast.LENGTH_SHORT).show();
+            }
+            // only add course if it isn't yet added and it isn't over max credits
+            if(!selectedCoursesList.contains(course) && !isOverMaxCredits){
+                selectedCoursesList.add(course);
+                credits += course.getCredits();
+            }
+        }
+
+        adapter.notifyItemChanged(courseListItemIndex);
 
         TextView tvSelectedCreditHours = root.findViewById(R.id.tvSelectedCredits);
         tvSelectedCreditHours.setText(getString(R.string.selected_total_credits, credits));

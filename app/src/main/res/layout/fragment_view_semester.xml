@@ -6,12 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ViewSemesterFragment">
 
-    <!-- this was needed to prevent error that crashed the app:
-    java.lang.RuntimeException: Your content must have a ListView whose id attribute is 'android.R.id.list' -->
-    <include layout="@android:layout/list_content" />
-
     <ListView
-        android:id="@+id/list"
+        android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="parent"
