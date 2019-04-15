@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class CourseListFragment extends Fragment {
     private DatabaseReference mDatabase;
     private RecyclerView recyclerView;
     private Button btnDone;
+    private ProgressBar progressBar;
     private CourseRecyclerAdapter adapter;
     private ArrayList<Course> selectedCoursesList;
     private OnDoneClick mCallBack;
@@ -84,6 +86,10 @@ public class CourseListFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        // show a progress bar while the course assignments data is being fetched
+        progressBar = root.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
         searchBarToggled = false;
         selectedCoursesList = new ArrayList<Course>();
         credits=0;
@@ -122,6 +128,8 @@ public class CourseListFragment extends Fragment {
                         course.setId(document.getId());
                         courseList.add(course);
                     }
+                    // hide progressbar when the courses have been fetched
+                    progressBar.setVisibility(View.GONE);
                     adapter.setCourses(courseList);
                 } else {
                     Log.w("Error", "Error getting documents.", task.getException());

@@ -93,12 +93,12 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerAd
                 }
             });
 
-            // if adding course in CourseInformationFragment, the button state needs to be set correctly
+            // if adding course in CourseInformationFragment, the button state(color) needs to be set correctly
             if (course.getBtnToggle()) {
-                courseViewHolder.btnToggle.setBackgroundColor(Color.RED);
+                courseViewHolder.btnToggle.setTextColor(Color.RED);
                 courseViewHolder.btnToggle.setText(R.string.delete_text);
             } else {
-                courseViewHolder.btnToggle.setBackgroundColor(Color.GREEN);
+                courseViewHolder.btnToggle.setTextColor(Color.parseColor("#006400"));
                 courseViewHolder.btnToggle.setText(R.string.add_text);
             }
             courseViewHolder.btnToggle.setOnClickListener( new View.OnClickListener() {
@@ -107,10 +107,10 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerAd
                     course.setBtnToggle();
                     // do different actions depending on the button status
                     if(course.getBtnToggle()) {
-                        courseViewHolder.btnToggle.setBackgroundColor(Color.RED);
+                        courseViewHolder.btnToggle.setTextColor(Color.RED);
                         courseViewHolder.btnToggle.setText(R.string.delete_text);
                     } else {
-                        courseViewHolder.btnToggle.setBackgroundColor(Color.GREEN);
+                        courseViewHolder.btnToggle.setTextColor(Color.parseColor("#006400"));
                         courseViewHolder.btnToggle.setText(R.string.add_text);
                     }
                     mCallback.updateCourseList(course, semester, courseListItemIndex);

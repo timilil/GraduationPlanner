@@ -41,9 +41,7 @@ public class NewPlanFragment extends Fragment {
     private ListView semesterLV;
     private int dropdownListSelection = -1;
     private int credits;
-    //private ArrayList<Course> selectedCoursesList = new ArrayList<Course>();
     private ArrayList<Semester> semestersAndCoursesList = new ArrayList<Semester>();
-    //private String selectedSemester;
 
     //list of items for the spinner (or drop down list).
     private String[] degreeLengths = new String[]{"1 year","2 years", "3 years", "4 years", "5 years", "6 years"};
@@ -250,18 +248,6 @@ public class NewPlanFragment extends Fragment {
             semestersAndCoursesList.add(semester);
         }
     }
-
-    /*private Semester[] parseJson(String json){
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        Semester[] semesters = null;
-        try {
-            semesters = gson.fromJson(json, Semester[].class);
-        } catch (Exception err) {
-            Log.d("TEST", "JSON Parse Crashed");
-        }
-        return semesters;
-    }*/
 
     public class setNewGraduationPlan extends AsyncTask<GraduationPlan, Integer, String> {
 

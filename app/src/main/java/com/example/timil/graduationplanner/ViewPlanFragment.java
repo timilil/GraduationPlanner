@@ -39,7 +39,7 @@ public class ViewPlanFragment extends ListFragment {
     private List<String> semesterArray;
 
     public interface OnClick {
-        void viewSemester(Semester semester);
+        void viewSemester(Semester semester, String semesterName);
         void deletePlan();
     }
 
@@ -103,7 +103,7 @@ public class ViewPlanFragment extends ListFragment {
 
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        mCallBack.viewSemester(graduationPlan.getSemestersArrayList().get(i));
+                        mCallBack.viewSemester(graduationPlan.getSemestersArrayList().get(i), semesterArray.get(i));
                     }
                 });
                 adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.tvList, semesterArray);

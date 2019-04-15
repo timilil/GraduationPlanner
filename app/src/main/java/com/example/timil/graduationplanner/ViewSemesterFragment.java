@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.timil.graduationplanner.db.entities.Course;
 import com.example.timil.graduationplanner.db.entities.Semester;
@@ -24,6 +25,7 @@ public class ViewSemesterFragment extends ListFragment {
 
     private View root;
     private Semester semester;
+    private String semesterName;
     private List<String> emptyArray;
     private ArrayList<Course> courseArray;
 
@@ -42,7 +44,9 @@ public class ViewSemesterFragment extends ListFragment {
     public void onResume() {
         super.onResume();
 
-        if (semester != null) {
+        if (semester != null && semesterName != null) {
+            TextView tvSemesterName = root.findViewById(R.id.tvSemesterInfo);
+            tvSemesterName.setText(semesterName);
             if (semester.getCourseArrayList().size() == 0) {
                 emptyArray = new ArrayList<>();
                 emptyArray.add("No course data.");
@@ -51,25 +55,17 @@ public class ViewSemesterFragment extends ListFragment {
             } else {
 
                 courseArray = new ArrayList<Course>();
-                // Attach the adapter to a ListView
-                //listView.setAdapter(adapter);
                 courseArray.addAll(semester.getCourseArrayList());
 
                 PlanCoursesListViewAdapter adapter = new PlanCoursesListViewAdapter(getContext(), courseArray);
                 ListView listView = getListView();
                 listView.setAdapter(adapter);
-                /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        //mCallBack.viewCourse(semester.getCourseArrayList().get(i));
-                    }
-                });*/
             }
         }
     }
 
-    public void setSemester(Semester semester) {
+    public void setSemester(Semester semester, String semesterName) {
         this.semester = semester;
+        this.semesterName = semesterName;
     }
 }

@@ -21,15 +21,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="@string/set_plan_name"
+            android:text="@string/new_plan"
+            android:textAllCaps="true"
             android:textStyle="bold"
-            android:layout_weight="3"/>
+            android:layout_weight="2"/>
 
         <TextView
             android:id="@+id/tvCurrentCredits"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+            android:textAllCaps="true"
             android:textStyle="bold"
             android:layout_weight="1"
             android:textAlignment="viewEnd"/>
@@ -40,6 +42,7 @@
         android:id="@+id/editName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/enter_plan_name_hint"
         app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
 
     <LinearLayout
@@ -55,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="16sp"
+            android:textAllCaps="true"
             android:textStyle="bold"
             android:text="@string/length"/>
 
@@ -68,9 +72,6 @@
             app:layout_constraintTop_toBottomOf="@id/tvPlanLength"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/list"/>
-
-        <!--android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"-->
 
     </LinearLayout>
 
@@ -87,10 +88,13 @@
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@android:color/white"
+        android:text="@string/save_plan"
+        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/list"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/save_plan"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

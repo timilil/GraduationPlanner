@@ -24,8 +24,9 @@
                 android:id="@+id/tv1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/name_string"
-                android:textSize="20sp"
+                android:text="@string/course_name_string"
+                android:textSize="18sp"
+                android:textAllCaps="true"
                 android:textStyle="bold"/>
 
             <TextView
@@ -46,7 +47,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/course_credits"
-                android:textSize="20sp"
+                android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -66,7 +68,8 @@
                 android:id="@+id/tv5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="18sp"
+                android:textAllCaps="true"
                 android:textStyle="bold"
                 android:text="@string/course_prerequisites"/>
 
@@ -87,7 +90,8 @@
                 android:id="@+id/tv7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="18sp"
+                android:textAllCaps="true"
                 android:textStyle="bold"
                 android:text="@string/course_description"/>
 
@@ -105,36 +109,6 @@
                 android:textColor="@color/colorGray"/>
 
         </LinearLayout>
-        <!--TextView
-            android:id="@+id/tv5"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:textSize="18sp"
-            android:textAlignment="viewEnd"
-            android:gravity="end|center"
-            android:text="@string/end_date_string"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/tv4" />
-
-        <EditText
-            android:id="@+id/edit5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:textColor="@color/colorGray"
-            android:enabled="false"
-            android:focusable="false"
-            android:background="@drawable/edittextdrawable"
-            app:layout_constraintBottom_toBottomOf="@+id/tv5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/tv5"  /-->
 
     </ScrollView>
 
@@ -143,6 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_text"
+        android:backgroundTint="@color/fui_transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

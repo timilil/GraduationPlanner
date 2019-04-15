@@ -31,8 +31,10 @@ public class PlanCoursesListViewAdapter extends ArrayAdapter<Course> {
 
         TextView tv1 = convertView.findViewById(R.id.tvListCourseName);
         TextView tv2 = convertView.findViewById(R.id.tvListCourseCredits);
+        TextView tv3 = convertView.findViewById(R.id.tvListCourseDescription);
         tv1.setText(course.getCourse_name());
         tv2.setText(""+course.getCredits());
+        tv3.setText(course.getDescription());
 
         return convertView;
     }

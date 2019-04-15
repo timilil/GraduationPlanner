@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.timil.graduationplanner.db.entities.Course;
@@ -61,9 +60,7 @@ public class CourseInformationFragment extends Fragment {
         tv4 = root.findViewById(R.id.tv4);
         tv6 = root.findViewById(R.id.tv6);
         tv8 = root.findViewById(R.id.tv8);
-        //edit5 = root.findViewById(R.id.edit5);
 
-        //edit1.setText(""+course.getId());
         tv2.setText(course.getCourse_name());
         tv4.setText(""+course.getCredits());
         tv6.setText(course.getPre_requisites());
@@ -71,10 +68,10 @@ public class CourseInformationFragment extends Fragment {
 
         Button btnAddCourse = root.findViewById(R.id.btnAddCourse);
         if (course.getBtnToggle()) {
-            btnAddCourse.setBackgroundColor(Color.RED);
+            btnAddCourse.setTextColor(Color.RED);
             btnAddCourse.setText(R.string.delete_text);
         } else {
-            btnAddCourse.setBackgroundColor(Color.GREEN);
+            btnAddCourse.setTextColor(Color.parseColor("#006400"));
             btnAddCourse.setText(R.string.add_text);
         }
         btnAddCourse.setOnClickListener(new View.OnClickListener() {

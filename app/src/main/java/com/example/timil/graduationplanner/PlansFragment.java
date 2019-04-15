@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.timil.graduationplanner.db.entities.GraduationPlan;
@@ -65,24 +66,8 @@ public class PlansFragment extends ListFragment {
     public void onResume() {
         super.onResume();
 
-        /*Button viewBtn = root.findViewById(R.id.btnView);
-        viewBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCallBack.viewPlan();
-            }
-        });*/
-
-        /*Button addBtn = root.findViewById(R.id.btnAdd);
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCallBack.newPlan();
-            }
-        });*/
         plansArray = new ArrayList<>();
         graduationPlans = new ArrayList<>();
-
 
         ViewModelProviders.of(getActivity())
                 .get(GraduationPlanViewModel.class)
@@ -93,13 +78,14 @@ public class PlansFragment extends ListFragment {
                         if(plans != null) {
                             graduationPlans = plans;
                             plansArray.clear();
+                            LinearLayout infoLinear = root.findViewById(R.id.infoLinear);
                             if (plans.size() == 0) {
-                                plansArray.add("No graduation plan data to show. Click the add button to create a new plan.");
-                                adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_no_data, R.id.tvListNoData, plansArray);
+                                infoLinear.setVisibility(View.VISIBLE);
                             } else {
                                 for (int i = 0; i < plans.size(); i++) {
                                     plansArray.add(plans.get(i).name);
                                 }
+                                infoLinear.setVisibility(View.GONE);
                                 ListView listView = getListView();
                                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -111,8 +97,8 @@ public class PlansFragment extends ListFragment {
                                     }
                                 });
                                 adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.tvList, plansArray);
+                                setListAdapter(adapter);
                             }
-                            setListAdapter(adapter);
                         }
                     }
                 });

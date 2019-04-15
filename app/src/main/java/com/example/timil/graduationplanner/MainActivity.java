@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
     @Override
     protected void onStart() {
         super.onStart();
-        // https://firebase.google.com/docs/auth/android/firebaseui
         // Choose authentication providers
         providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
@@ -93,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 user = FirebaseAuth.getInstance().getCurrentUser();
-                Log.d("TESTTTT", "New user signed in"+user.getUid());
                 // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
@@ -246,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
     }
 
     @Override
-    public void viewSemester(Semester semester) {
+    public void viewSemester(Semester semester, String semesterName) {
         if(viewSemesterFragment == null) {
             viewSemesterFragment = new ViewSemesterFragment();
         }
@@ -254,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements PlansFragment.OnP
                 .replace(R.id.fragmentContainer, viewSemesterFragment, "viewSemesterFragment")
                 .addToBackStack(null)
                 .commit();
-        viewSemesterFragment.setSemester(semester);
+        viewSemesterFragment.setSemester(semester, semesterName);
     }
 
     @Override
